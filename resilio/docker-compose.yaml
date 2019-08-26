@@ -1,0 +1,27 @@
+---
+version: "2"
+services:
+  resilio-sync:
+    image: linuxserver/resilio-sync
+    container_name: resilio-sync
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - UMASK_SET=022
+    volumes:
+      - /home/golden/.config/resilio-sync/:/config
+      - /data/download:/download
+      - /data/download:/sync
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8888"
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:resilio.home.com,r.home.com"
+      - "traefik.frontend.entryPoints=http"
+networks:
+  traefik:
+    external: true

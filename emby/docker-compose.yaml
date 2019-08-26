@@ -1,0 +1,78 @@
+---
+version: "2"
+services:
+  emby:
+    image: linuxserver/emby
+    container_name: emby
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./emby:/config
+      - /data/tvshows:/tvshows
+      - /data/movie:/movies
+      - /data:/data
+    expose:
+      - 8096
+    ports:
+      - 8096:8096
+    restart: unless-stopped
+    dns: 172.18.1.53
+    networks:
+      - traefik 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8096"
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:emby.home.com,em.home.com,em.home"
+      - "traefik.frontend.entryPoints=http"
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      #- RUN_OPTS=run options here #optional
+    volumes:
+      - ./jackett:/config
+      - /data:/data
+    restart: unless-stopped
+    expose:
+      - 9117
+    networks:
+      - traefik
+    dns: 172.18.1.53
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=9117"
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:jackeet.home.com,jk.home.com"
+      - "traefik.frontend.entryPoints=http"
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./radarr:/config
+      - /data:/data
+    expose: 
+      - 7878
+    restart: unless-stopped
+    networks:
+      - traefik
+    dns: 172.18.1.53
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=7878"
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:radarr.home.com,ra.home.com"
+      - "traefik.frontend.entryPoints=http"
+networks:
+  traefik:
+    external: true

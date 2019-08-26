@@ -1,0 +1,28 @@
+---
+version: "2"
+services:
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    networks: 
+      - traefik
+    expose:
+      - 8112
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=022
+      - TZ=timezone
+    volumes:
+      - /home/golden/.config/deluge/:/config
+      - /data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8112"
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:deluge.home.com,deluge.home"
+      - "traefik.frontend.entryPoints=http"
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,31 @@
+version: "2"
+services:
+  docker-dns:
+    container_name: dns
+    image: jpillora/dnsmasq
+    hostname: dns
+    volumes:
+      - ./dnsmasq.conf/:/etc/dnsmasq.conf
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+    expose:
+      - 53
+      - 8080
+        #- 5380:8080
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    #network_mode: host
+    networks:
+      traefik:
+        ipv4_address: 172.18.1.53
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:dns.home.com"  
+      - "traefik.frontend.entryPoints=http"
+networks:
+  traefik:
+    external: true

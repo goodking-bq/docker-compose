@@ -1,0 +1,123 @@
+{
+  "dns" : {
+    "servers" : [
+      "8.8.8.8"
+    ]
+  },
+  "inbounds" : [
+    {
+      "listen" : "0.0.0.0",
+      "port" : 1081,
+      "protocol" : "socks",
+      "tag" : "socksinbound",
+      "settings" : {
+        "auth" : "noauth",
+        "udp" : true,
+        "ip" : "127.0.0.1"
+      }
+    },
+    {
+      "listen" : "0.0.0.0",
+      "port" : 8001,
+      "protocol" : "http",
+      "tag" : "httpinbound",
+      "settings" : {
+        "timeout" : 0
+      }
+    }
+  ],
+  "outbounds" : [
+    {
+      "sendThrough" : "0.0.0.0",
+      "mux" : {
+        "enabled" : false,
+        "concurrency" : 8
+      },
+      "protocol" : "vmess",
+      "settings" : {
+        "vnext" : [
+          {
+            "address" : "42.157.192.135",
+            "users" : [
+              {
+                "id" : "f0dcecc8-b253-46f7-9734-9ae90942ab90",
+                "alterId" : 64,
+                "security" : "auto",
+                "level" : 1
+              }
+            ],
+            "port" : 8443
+          }
+        ]
+      },
+      "tag" : "42.157.192.135",
+      "streamSettings" : {
+        "sockopt" : {
+
+        },
+        "quicSettings" : {
+          "key" : "",
+          "security" : "none",
+          "header" : {
+            "type" : "none"
+          }
+        },
+        "tlsSettings" : {
+          "allowInsecure" : false,
+          "alpn" : [
+            "http\/1.1"
+          ],
+          "serverName" : "server.cc",
+          "allowInsecureCiphers" : false
+        },
+        "wsSettings" : {
+          "path" : "",
+          "headers" : {
+
+          }
+        },
+        "httpSettings" : {
+          "path" : "",
+          "host" : [
+            ""
+          ]
+        },
+        "tcpSettings" : {
+          "header" : {
+            "type" : "none"
+          }
+        },
+        "kcpSettings" : {
+          "header" : {
+            "type" : "none"
+          },
+          "mtu" : 1350,
+          "congestion" : false,
+          "tti" : 20,
+          "uplinkCapacity" : 5,
+          "writeBufferSize" : 1,
+          "readBufferSize" : 1,
+          "downlinkCapacity" : 20
+        },
+        "security" : "none",
+        "network" : "tcp"
+      }
+    }
+  ],
+  "routing" : {
+    "name" : "all_to_main",
+    "domainStrategy" : "AsIs",
+    "rules" : [
+      {
+        "type" : "field",
+        "outboundTag" : "42.157.192.135",
+        "port" : "0-65535"
+      }
+    ]
+  },
+  "log" : {
+    "error" : "/var/log/v2ray/error.log",
+    "loglevel" : "none",
+    "access" : "/var/log/v2ray/access.log"
+  }
+}

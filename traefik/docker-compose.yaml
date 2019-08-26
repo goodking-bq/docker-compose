@@ -1,0 +1,22 @@
+version: '3'
+services:
+  traefik:
+    restart: always
+    image: traefik
+    ports:
+      - '80:80'
+    labels:
+      - 'traefik.frontend.rule=Host:traefik.home.com'
+      - 'traefik.enable=true'
+      - 'traefik.passHostHeader=true'
+      - 'traefik.protocol=http'
+      - 'traefik.port=8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
+    networks:
+      - traefik 
+networks:
+  traefik:
+    external: true
