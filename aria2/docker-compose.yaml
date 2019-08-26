@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  aria2:
+    container_name: aria2
+    image: opengg/aria2
+    expose:
+      - 6800
+    networks:
+      - traefik
+    environment:
+      - PGID=1000 
+      - PUID=1000 
+    volumes:
+      - /data:/data
+      - ./config:/config
+    user: 1000:1000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=6800"
+      - "traefik.frontend.rule=Host:aria2.home.com,aria2.home"
+      - "traefik.frontend.entryPoints=http,https,ws,wss"
+    restart: unless-stopped
+
+networks:
+  traefik:
+    external: true
