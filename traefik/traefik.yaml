@@ -1,0 +1,60 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+serversTransport:
+  insecureSkipVerify: true
+  maxIdleConnsPerHost: 42
+  forwardingTimeouts:
+    dialTimeout: 42
+    responseHeaderTimeout: 42
+    idleConnTimeout: 42
+entryPoints:
+  web:
+    address: ':80'
+    transport:
+      lifeCycle:
+        requestAcceptGraceTimeout: 42
+        graceTimeOut: 42
+      respondingTimeouts:
+        readTimeout: 42
+        writeTimeout: 42
+        idleTimeout: 42
+    proxyProtocol:
+      insecure: true
+      #trustedIPs:
+      #- foobar
+      #- foobar
+    forwardedHeaders:
+      insecure: true
+      #trustedIPs:
+              #- foobar
+              #- foobar
+providers:
+  providersThrottleDuration: 42
+  docker:
+    constraints: ""
+    watch: true
+    endpoint: "unix:///var/run/docker.sock"
+    #defaultRule: foobar
+    #tls:
+    #  ca: foobar
+    #  caOptional: true
+    #  cert: foobar
+    #  key: foobar
+    #  insecureSkipVerify: true
+    exposedByDefault: false
+    useBindPortIP: false
+    swarmMode: false
+    network: traefik
+    swarmModeRefreshSeconds: 42
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    entryPoint: web
+ping:
+  entryPoint: web
