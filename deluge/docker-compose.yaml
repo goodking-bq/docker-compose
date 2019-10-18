@@ -19,10 +19,9 @@ services:
       - /data:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.port=8112"
-      - "traefik.docker.network=traefik"
-      - "traefik.frontend.rule=Host:deluge.home.com,deluge.home"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.http.routers.deluge.entrypoints=web"
+      - 'traefik.http.routers.deluge.rule=Host(`deluge.home.com`)'
+      - "traefik.http.services.deluge.loadbalancer.server.port=8112"
 networks:
   traefik:
     external: true

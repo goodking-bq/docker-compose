@@ -25,10 +25,9 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.port=9091"
-      - "traefik.docker.network=traefik"
-      - "traefik.frontend.rule=Host:transmission.home.com,trans.home.com"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.http.routers.transmission.entrypoints=web"
+      - 'traefik.http.routers.transmission.rule=Host(`transmission.home.com`,`trans.home.com`)'
+      - "traefik.http.services.transmission.loadbalancer.server.port=9091"
 networks:
   traefik:
     external: true

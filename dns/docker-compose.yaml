@@ -22,10 +22,9 @@ services:
         ipv4_address: 172.18.1.53
     labels:
       - "traefik.enable=true"
-      - "traefik.port=8080"
-      - "traefik.docker.network=traefik"
-      - "traefik.frontend.rule=Host:dns.home.com"  
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.http.routers.dns.entrypoints=web"
+      - 'traefik.http.routers.dns.rule=Host(`dns.home.com`)'
+      - "traefik.http.services.dns.loadbalancer.server.port=8080"
 networks:
   traefik:
     external: true

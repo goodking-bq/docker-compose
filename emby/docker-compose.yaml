@@ -23,10 +23,9 @@ services:
       - traefik 
     labels:
       - "traefik.enable=true"
-      - "traefik.port=8096"
-      - "traefik.docker.network=traefik"
-      - "traefik.frontend.rule=Host:emby.home.com,em.home.com,em.home"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.http.routers.emby.entrypoints=web"
+      - 'traefik.http.routers.emby.rule=Host(`emby.home.com`)'
+      - "traefik.http.services.emby.loadbalancer.server.port=8096"
   jackett:
     image: linuxserver/jackett
     container_name: jackett
@@ -46,10 +45,9 @@ services:
     dns: 172.18.1.53
     labels:
       - "traefik.enable=true"
-      - "traefik.port=9117"
-      - "traefik.docker.network=traefik"
-      - "traefik.frontend.rule=Host:jackeet.home.com,jk.home.com"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.http.routers.jackett.entrypoints=web"
+      - 'traefik.http.routers.jackett.rule=Host(`jackett.home.com`)'
+      - "traefik.http.services.jackett.loadbalancer.server.port=8117"
   radarr:
     image: linuxserver/radarr
     container_name: radarr
@@ -69,10 +67,9 @@ services:
     dns: 172.18.1.53
     labels:
       - "traefik.enable=true"
-      - "traefik.port=7878"
-      - "traefik.docker.network=traefik"
-      - "traefik.frontend.rule=Host:radarr.home.com,ra.home.com"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.http.routers.radarr.entrypoints=web"
+      - 'traefik.http.routers.radarr.rule=Host(`radarr.home.com`)'
+      - "traefik.http.services.radarr.loadbalancer.server.port=8080"
 networks:
   traefik:
     external: true
