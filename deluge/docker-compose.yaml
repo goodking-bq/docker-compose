@@ -2,7 +2,7 @@
 version: "2"
 services:
   deluge:
-    image: linuxserver/deluge
+    image: linuxserver/deluge:latest
     container_name: deluge
     networks: 
       - traefik
