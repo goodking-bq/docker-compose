@@ -1,4 +1,4 @@
-version: "2"
+version: "3.7"
 services:
   docker-dns:
     container_name: dns
@@ -12,14 +12,12 @@ services:
     expose:
       - 53
       - 8080
-        #- 5380:8080
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
-    #network_mode: host
     networks:
       traefik:
-        ipv4_address: 172.18.1.53
+        ipv4_address: 172.19.0.53
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dns.entrypoints=web"

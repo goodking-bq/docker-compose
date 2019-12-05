@@ -10,9 +10,10 @@ services:
       - TZ=Asia/Shanghai
       - TRANSMISSION_WEB_HOME=/transmission-web-control/ #optional
     volumes:
-      - /home/golden/.config/transmission-daemon:/config
-      - /data:/data
-      - /home/golden/Downloads/:/watch
+      - ./config:/config
+      - /home/golden/Downloads/:/data
+      - /home/golden/Downloads/.movie:/download
+      - /home/golden/Videos/:/movie
     expose:
       - 9091
       - 51413
