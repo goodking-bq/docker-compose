@@ -29,6 +29,17 @@ services:
       - "traefik.http.routers.transmission.entrypoints=web"
       - 'traefik.http.routers.transmission.rule=Host(`transmission.home.com`,`trans.home.com`)'
       - "traefik.http.services.transmission.loadbalancer.server.port=9091"
+  transmission-tracker-add:
+    image: andrewmhub/transmission-tracker-add    
+    container_name: transmission-tracker-add 
+    # dns: 172.19.0.53
+    networks:
+      - traefik
+    restart: unless-stopped
+    environment:
+      - HOSTPORT=transmission:9091
+      - TR_AUTH=":"
+      - TORRENTLIST=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 networks:
   traefik:
     external: true

@@ -10,9 +10,8 @@ services:
       - TZ=Asia/Shanghai
     volumes:
       - ./emby:/config
-      - /data/tvshows:/tvshows
-      - /data/movie:/movies
-      - /data:/data
+      - /home/golden/Downloads/.movie:/download
+      - /home/golden/Videos:/movies
     expose:
       - 8096
     ports:
@@ -36,7 +35,7 @@ services:
       #- RUN_OPTS=run options here #optional
     volumes:
       - ./jackett:/config
-      - /data:/data
+      - /home/golden/Downloads:/data
     restart: unless-stopped
     expose:
       - 9117
@@ -58,7 +57,7 @@ services:
       - UMASK_SET=022 #optional
     volumes:
       - ./radarr:/config
-      - /data:/data
+      - /home/golden/Downloads:/data
     expose: 
       - 7878
     restart: unless-stopped
